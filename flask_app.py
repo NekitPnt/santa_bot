@@ -42,10 +42,10 @@ def tp_tg_webhook():
         return 'not tg'
 
 
-@app.route('/webhook', methods=['POST'])
+@app.route('/git_hook', methods=['POST'])
 def webhook():
     if request.method == 'POST':
-        repo = git.Repo('./myproject')
+        repo = git.Repo('./Santa_bot')
         origin = repo.remotes.origin
         repo.create_head('master',
                          origin.refs.master).set_tracking_branch(origin.refs.master).checkout()
