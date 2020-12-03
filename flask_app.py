@@ -1,7 +1,6 @@
 from flask import Flask, request
 from peewee import SqliteDatabase
 import traceback
-import telebot
 import git
 
 import utils
@@ -11,7 +10,6 @@ import comanager as cmng
 from features import secret_santa
 
 app = Flask(__name__)
-tg_bot = telebot.TeleBot(settings.tg_token[settings.prod])
 database = SqliteDatabase(settings.DATABASE)
 
 
@@ -28,18 +26,6 @@ def after_request(response):
 # ---------------------------------------------------------------------------------------------------------------------
 # Основные боты
 # ---------------------------------------------------------------------------------------------------------------------
-
-
-# Telegram
-@app.route("/telegram", methods=['POST'])
-def tp_tg_webhook():
-    data = request.get_json(force=True)
-    if 'message' in data:
-        return response_handler_for_tg(data['message'])
-    elif 'callback_query' in data:
-        return callback_query_handler(data)
-    else:
-        return 'not tg'
 
 
 @app.route('/git_hook', methods=['POST'])
@@ -100,36 +86,6 @@ def response_handler_for_vk(data):
         utils.error_notificator(traceback.format_exc() + '\n\n' + str(data))
         return 'ok'
 
-
-# -------------------------------------- обработчик входящих запросов от TG -------------------------------------------
-
-
-def response_handler_for_tg(data):
-    try:
-        return create_answer(data, soClass.tg_soc)
-    except Exception:
-        utils.error_notificator(traceback.format_exc() + '\n\n' + str(data))
-        return 'ok'
-
-
-def answer_callback_tg(callback_query_id, text='', show_alert=False):
-    tg_bot.answer_callback_query(callback_query_id, text, show_alert)
-
-
-# обработчик запросов инлайновых кнопок
-def callback_query_handler(data):
-    new_data = data['callback_query']['message']
-    new_data['message_text'] = new_data['text']
-    new_data['callback_query_id'] = data['callback_query']['id']
-    callback_data = data['callback_query']['data']
-    payload: payloadClass.Payload = payloadClass.get_payload(callback_data)
-    new_data['payload'] = payload
-    new_data['text'] = payload.command
-
-    if not payload.answ_back:
-        answer_callback_tg(data['callback_query']['id'])
-
-    return response_handler_for_tg(new_data)
 
 # ---------------------------------------------------------------------------------------------------------------------
 # генератор ответов
