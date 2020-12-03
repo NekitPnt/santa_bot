@@ -2,6 +2,7 @@ from flask import Flask, request
 from peewee import SqliteDatabase
 import traceback
 import telebot
+import git
 
 import utils
 import settings
@@ -39,6 +40,19 @@ def tp_tg_webhook():
         return callback_query_handler(data)
     else:
         return 'not tg'
+
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    if request.method == 'POST':
+        repo = git.Repo('./myproject')
+        origin = repo.remotes.origin
+        repo.create_head('master',
+                         origin.refs.master).set_tracking_branch(origin.refs.master).checkout()
+        origin.pull()
+        return '', 200
+    else:
+        return '', 400
 
 
 # VK
