@@ -105,9 +105,8 @@ class VkMethods:
 
     def linked_user_name(self, user_id):
         full_name = self.user_name(user_id)
-        first_name = '@id' + str(user_id) + '(' + full_name['first_name'] + ')'
-        last_name = '@id' + str(user_id) + '(' + full_name['last_name'] + ')'
-        return first_name, last_name
+        linked_name = f"@id{user_id}({full_name['first_name']} {full_name['last_name']})"
+        return linked_name
 
     def widgets_get_pages(self, widget_api_id: int, order: str = 'date', period: str = 'alltime', offset: int = 0, count: int = 10):
         return self.api.widgets.getPages(access_token=self.service_token, widget_api_id=widget_api_id, order=order,

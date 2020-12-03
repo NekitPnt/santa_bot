@@ -1,11 +1,14 @@
 from dataclasses import dataclass, field
 from typing import List
-from classes.soClass import Socials
+from . import btnCls
 
 
 @dataclass
 class Message:
     text: str = ""
-    kb: List[List[List[str]]] = None
+    kb: List[List[List[btnCls.Btn]]] = None
     attach: list = field(default_factory=list)
-    social: Socials = None
+    inline_kb: bool = False
+    callback_kb: bool = False
+    parse_mode: str = ''
+    dont_parse_links: int = 1

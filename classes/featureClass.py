@@ -1,6 +1,5 @@
 from typing import List
-from classes import accessClass, statClass, soClass, userClass
-from modules import statCollector
+from classes import accessClass, statClass, soClass
 
 default_sub_checkbox = "☑️ "
 
@@ -51,18 +50,6 @@ class Feature:
         # добавляем фичу в список активных фичей если она не disabled
         if not self.disabled:
             self.__class__.active_instances.append(self)
-
-    def stata_wrapper(self, func):
-        def stat_collect(**kwargs):
-            if self.stat:
-                statCollector.stat_collector(kwargs['user'], self.stat)
-            return func(**kwargs)
-
-        return stat_collect
-
-    def simple_stat_collect(self, user: userClass.User):
-        if self.stat:
-            statCollector.stat_collector(user, self.stat)
 
     @staticmethod
     def act_list(ftr_list: list) -> List[str]:
