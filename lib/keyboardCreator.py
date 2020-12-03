@@ -10,7 +10,7 @@ def create_payload(element: any):
                         if type(element) is dict else json.dumps({"command": element}, ensure_ascii=False)
 
 
-def create_vk_keyboard(kb):
+def create_vk_keyboard(msg):
     """
     Стандартное отображение
     По умолчанию, если не передан параметр inline, клавиатура показывается под полем ввода в диалоге с пользователем.
@@ -20,7 +20,7 @@ def create_vk_keyboard(kb):
     Клавиатура может отображаться внутри сообщения — это inline-отображение. Чтобы включить его, передайте параметр
     inline в объект клавиатуры. Её максимальный размер составит 5 × 6. Максимальное количество клавиш: 10.
     """
-    one_time_flag = not kb.inline_kb
+    one_time_flag = not msg.inline_kb
     btn_colors = {
         'white': 'default',
         'blue': 'primary',
@@ -28,7 +28,7 @@ def create_vk_keyboard(kb):
         'green': 'positive'
     }
     button_rows = []
-    for rows in kb:
+    for rows in msg.kb:
         if rows:
             row = []
             for btn in rows:
@@ -37,12 +37,12 @@ def create_vk_keyboard(kb):
                 if btn.url:
                     payload = json.dumps({"payload": btn.url})
                     row.append({'action': {'type': 'open_link', 'link': btn.url, 'payload': payload, 'label': btn.label}})
-                elif kb.callback_kb:
+                elif msg.callback_kb:
                     row.append({'action': {'type': 'callback', 'payload': payload, 'label': btn.label}, 'color': color})
                 else:
                     row.append({'action': {'type': 'text', 'payload': payload, 'label': btn.label}, 'color': color})
             button_rows.append(row)
-    keyboard = {'one_time': one_time_flag, 'buttons': button_rows, 'inline': kb.inline_kb}
+    keyboard = {'one_time': one_time_flag, 'buttons': button_rows, 'inline': msg.inline_kb}
 
     return keyboard
 
