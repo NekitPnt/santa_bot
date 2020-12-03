@@ -69,8 +69,8 @@ class User:
     def send_msg_vk(self, msg: msgCls.Message):
         vk_methods = myVkbotClass.VkMethods(settings.vk_token[settings.prod], settings.vk_api_version, settings.vk_service_token)
         # если есть клава у сообщения
-        if msg.kb:
-            msg.kb = keyboardCreator.create_vk_keyboard(msg)
+        # if msg.kb:
+          #   msg.kb = keyboardCreator.create_vk_keyboard(msg)
 
         # если юзер не запретил нам отправлять себе сообщения
         try:
