@@ -183,5 +183,6 @@ def create_answer(data: dict, social: soClass.Socials) -> str:
 def error_handler(e):
     # уведомляете админа об ошибке
     utils.error_notificator(traceback.format_exc())
+    # print(traceback.format_exc())
     # возвращаете ВК ok
     return 'ok'
