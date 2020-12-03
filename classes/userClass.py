@@ -76,4 +76,4 @@ class User:
         try:
             vk_methods.send_message(self.uid, msg.text, msg.kb, msg.attach, msg.dont_parse_links)
         except VkAPIError as e:
-            utils.error_notificator(e)
+            print(e)
