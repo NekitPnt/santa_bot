@@ -17,8 +17,8 @@ class VkMethods:
         # отображение русских клавиш
         keyboard = json.dumps(keyboard, ensure_ascii=False).encode('utf-16', 'surrogatepass').decode('utf-16')
 
-        self.api.messages.send(access_token=self.token, user_id=user_id, message=message, keyboard=keyboard,
-                               attachment=attachment, dont_parse_links=dont_parse_links)
+        self.api.messages.send(access_token=self.token, user_id=user_id, message=message)#, keyboard=keyboard,
+                               #attachment=attachment, dont_parse_links=dont_parse_links)
 
     def edit_message(self, user_id, message_id, new_text, keyboard=None):
         if keyboard is None:
