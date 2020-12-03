@@ -12,10 +12,10 @@ class VkMethods:
         self.service_token = service_token
 
     def send_message(self, user_id, message="", keyboard=None, attachment=(), dont_parse_links=1):
-        if keyboard is None:
+        """if keyboard is None:
             keyboard = {'one_time': True, 'buttons': []}
         # отображение русских клавиш
-        keyboard = json.dumps(keyboard, ensure_ascii=False).encode('utf-16', 'surrogatepass').decode('utf-16')
+        keyboard = json.dumps(keyboard, ensure_ascii=False).encode('utf-16', 'surrogatepass').decode('utf-16')"""
 
         self.api.messages.send(access_token=self.token, user_id=user_id, message=message)#, keyboard=keyboard,
                                #attachment=attachment, dont_parse_links=dont_parse_links)
