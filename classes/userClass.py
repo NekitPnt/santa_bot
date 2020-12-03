@@ -22,7 +22,7 @@ class User:
         return user.id
 
     def get_user_room_id(self) -> int:
-        return Users.get_or_none(user_id=self.db_id).room_id
+        return Users.get_or_none(id=self.db_id).room_id
 
     def get_room_shuffled(self):
         if self.room_id:
