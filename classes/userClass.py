@@ -3,6 +3,7 @@ from lib import keyboardCreator
 from models import Users, Rooms
 from vk.exceptions import VkAPIError
 import settings
+import utils
 
 
 class User:
@@ -75,4 +76,4 @@ class User:
         try:
             vk_methods.send_message(self.uid, msg.text, msg.kb, msg.attach, msg.dont_parse_links)
         except VkAPIError as e:
-            pass
+            utils.error_notificator(e)
