@@ -32,8 +32,6 @@ def create_vk_keyboard(msg):
         if rows:
             row = []
             for btn in rows:
-                import utils
-                utils.error_notificator(btn)
                 payload = btn.payload.to_dict() if btn.payload else json.dumps({"command": btn.label})
                 color = btn.color if btn.color else btn_colors['white']
                 if btn.url:

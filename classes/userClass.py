@@ -3,7 +3,6 @@ from lib import keyboardCreator
 from models import Users, Rooms
 from vk.exceptions import VkAPIError
 import settings
-import utils
 
 
 class User:
@@ -38,6 +37,7 @@ class User:
         else:
             self.room_id = Rooms.create().id
             Users.update(room_id=self.room_id, is_admin=True).where(Users.id == self.db_id).execute()
+            self.is_admin = True
             return self.room_id
 
     def set_room(self, room_id):
