@@ -16,6 +16,8 @@ def about_response(user: User):
     # если у чувака уже есть комната
     if user.room_id:
         # если он админ этой комнаты тогда предлагаем ему кикнуть, узнать список людей, зашафлить
+        import utils
+        utils.error_notificator(user.is_admin)
         if user.is_admin:
             msg = Message(f"{cmng.admin_about.text}\n", [])
             for ftr in [cmng.check_room, cmng.start_shuffle, cmng.delete_room]:

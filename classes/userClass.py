@@ -18,8 +18,6 @@ class User:
 
     def get_or_create_user(self) -> int:
         user, created = Users.get_or_create(user_social_id=self.uid, social=self.social.key)
-        import utils
-        utils.error_notificator(user.is_admin)
         self.is_admin = user.is_admin
         return user.id
 
