@@ -96,9 +96,9 @@ def start_gifts_shuffle(admin: User):
 def check_users_in_room(admin: User):
     all_users = list(admin.get_all_room_users())
     admin.send_msg(Message(cmng.check_room.text))
-    for user_id in all_users:
-        user_name = vk_methods.linked_user_name(user_id)
-        kb = [[Btn(f"{cmng.kick_user.button} {user_id}")]]
+    for user in all_users:
+        user_name = vk_methods.linked_user_name(user.user_social_id)
+        kb = [[Btn(f"{cmng.kick_user.button} {user.user_social_id}")]]
         admin.send_msg(Message(user_name, kb, inline_kb=True))
 
 
