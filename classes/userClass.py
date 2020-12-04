@@ -41,8 +41,12 @@ class User:
             return self.room_id
 
     def set_room(self, room_id):
-        self.room_id = room_id
-        Users.update(room_id=self.room_id).where(Users.id == self.db_id).execute()
+        room = Rooms.get_or_none(id=room_id)
+        if room:
+            self.room_id = room_id
+            Users.update(room_id=self.room_id).where(Users.id == self.db_id).execute()
+            return room_id
+        return 0
 
     def leave_room(self):
         self.room_id = None

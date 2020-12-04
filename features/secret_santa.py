@@ -52,13 +52,14 @@ def clear_room(admin: User):
     for user_social_id in all_room_users:
         user = User(admin.social, uid=user_social_id)
         user.send_msg(Message(cmng.delete_room.text))
+    about_response(admin)
 
 
 def add_user_to_room(user: User, command: str):
     room_id = join_link_creator.parse_key(command, cmng.user_adding.prefix)
     if room_id:
-        user.set_room(room_id)
-        msg = Message(cmng.user_adding.text)
+        room = user.set_room(room_id)
+        msg = Message(cmng.user_adding.text) if room else Message(cmng.room_error.text)
     else:
         msg = Message(cmng.room_error.text)
     user.send_msg(msg)
