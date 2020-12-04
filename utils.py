@@ -4,7 +4,6 @@ import comanager as cmng
 
 
 def fwd_parser(data: dict):
-    error_notificator(data)
     for mes in data.get('fwd_messages', []):
         if mes.get('fwd_messages', ''):
             return fwd_parser(mes)
