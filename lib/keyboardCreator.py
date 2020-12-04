@@ -32,7 +32,7 @@ def create_vk_keyboard(msg):
         if rows:
             row = []
             for btn in rows:
-                payload = btn.payload if btn.payload else json.dumps({"command": btn.label})
+                payload = btn.payload.to_dict() if btn.payload else json.dumps({"command": btn.label})
                 color = btn.color if btn.color else btn_colors['white']
                 if btn.url:
                     payload = json.dumps({"payload": btn.url})

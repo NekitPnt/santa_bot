@@ -1,9 +1,10 @@
 from dataclasses import dataclass
+from . import payloadClass
 
 
 @dataclass
 class Btn:
     label: str
     color: str = ""
-    payload: str = ""
+    payload: payloadClass.Payload = None
     url: str = ""
