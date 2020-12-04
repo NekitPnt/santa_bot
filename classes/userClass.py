@@ -44,13 +44,13 @@ class User:
         room = Rooms.get_or_none(id=room_id)
         if room:
             self.room_id = room_id
-            Users.update(room_id=self.room_id).where(Users.id == self.db_id).execute()
+            Users.update(room_id=self.room_id, is_admin=False).where(Users.id == self.db_id).execute()
             return room_id
         return 0
 
     def leave_room(self):
         self.room_id = None
-        Users.update(room_id=None).where(Users.id == self.db_id).execute()
+        Users.update(room_id=None, is_admin=False).where(Users.id == self.db_id).execute()
 
     def get_all_room_users(self):
         return Users.select().where(Users.room_id == self.room_id)
@@ -63,8 +63,9 @@ class User:
         all_room_users_ids = []
         for user in in_room_users:
             all_room_users_ids.append(user.user_social_id)
-            Users.update(room_id=None).where(Users.id == user.id).execute()
+            Users.update(room_id=None, is_admin=False).where(Users.id == user.id).execute()
         self.room_id = None
+        self.is_admin = False
         return all_room_users_ids
 
     def send_msg(self, msg: msgCls.Message):
