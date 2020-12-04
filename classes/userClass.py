@@ -55,8 +55,9 @@ class User:
     def get_all_room_users(self):
         return Users.select().where(Users.room_id == self.room_id)
 
-    def kick_user(self, user_db_id):
-        Users.update(room_id=None).where((Users.room_id == self.room_id) & Users.id == user_db_id).execute()
+    @staticmethod
+    def kick_user(user_db_id):
+        Users.update(room_id=None).where(Users.id == user_db_id).execute()
 
     def clear_room(self) -> list:
         in_room_users = self.get_all_room_users()

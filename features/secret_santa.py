@@ -101,9 +101,13 @@ def check_users_in_room(admin: User):
 
 
 def kick_user_from_room(admin: User, command: str):
+    # парсим юзера из его социальной айди
     user_id = command.replace(cmng.kick_user.button.lower(), '').strip()
     user = User(admin.social, uid=user_id)
     user_name = vk_methods.linked_user_name(user_id)
-    admin.send_msg(Message(cmng.kick_user.text.format(user_name)))
+    # кикаем
     admin.kick_user(user.db_id)
+    # говорим и админу и юзеру о кике
+    admin.send_msg(Message(cmng.kick_user.text.format(user_name)))
     user.send_msg(Message(cmng.kicked_user.text))
+    about_response(admin)
