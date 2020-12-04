@@ -31,4 +31,4 @@ class Users(BaseModel):
 
 
 with database:
-    database.create_tables([Users])
+    database.create_tables([Rooms, Users])
