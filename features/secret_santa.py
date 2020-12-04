@@ -98,7 +98,7 @@ def check_users_in_room(admin: User):
     admin.send_msg(Message(cmng.check_room.text))
     for user_id in all_users:
         user_name = vk_methods.linked_user_name(user_id)
-        kb = [[[Btn(f"{cmng.kick_user.button} {user_id}", payload=f"{cmng.kick_user.button} {user_id}")]]]
+        kb = [[[Btn(f"{cmng.kick_user.button} {user_id}")]]]
         admin.send_msg(Message(user_name, kb, inline_kb=True))
 
 
