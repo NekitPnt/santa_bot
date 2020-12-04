@@ -51,7 +51,7 @@ class VkMethods:
                                                  peer_id=peer_id, event_data=event_data)
 
     def check_user_sub(self, group_id, user_id):
-        return self.api.groups.isMember(access_token=self.token, group_id=group_id, user_id=user_id)
+        return self.api.groups.isMember(access_token=self.token, group_id=group_id, user_id=user_id)['member']
 
     def photo_by_id(self, photo_id):
         return self.api.photos.getById(access_token=self.service_token, photos=photo_id)[0]

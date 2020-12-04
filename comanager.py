@@ -68,6 +68,9 @@ access_error = Feature(
 kicked_user = Feature(
     text="Увы и ах, но вас, к сожалению, выгнали из комнаты"
 )
+pls_sub = Feature(
+    text="Если вам понравился наш бот, не забывайте подписываться на него, чтобы не пропускать новые крутые фичи!"
+)
 aaaaaaaaa = Feature(
     activators=[],
     text="",

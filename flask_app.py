@@ -50,7 +50,7 @@ def processing():
         return 'not vk'
     else:
         if data['type'] == 'confirmation':
-            return settings.vk_confirmation_token[settings.prod]
+            return settings.vk_confirmation_token
         return response_handler_for_vk(data)
 
 
@@ -62,7 +62,7 @@ def processing():
 def response_handler_for_vk(data):
     try:
         if (data['type'] == 'message_new' or data['type'] == 'message_edit') and \
-                data['object']['from_id'] != -settings.vk_group_id[settings.prod] and \
+                data['object']['from_id'] != -settings.vk_group_id and \
                 data['object']['from_id'] == data['object']['peer_id']:
             data['object']['payload'] = payloadClass.get_payload(data['object'].get('payload', "{}"))
             # выковыривание рефералки

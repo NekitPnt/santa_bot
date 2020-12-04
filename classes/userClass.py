@@ -75,7 +75,7 @@ class User:
             self.send_msg_vk(msg)
 
     def send_msg_vk(self, msg: msgCls.Message):
-        vk_methods = myVkbotClass.VkMethods(settings.vk_token[settings.prod], settings.vk_api_version, settings.vk_service_token)
+        vk_methods = myVkbotClass.VkMethods(settings.vk_token, settings.vk_api_version, settings.vk_service_token)
         # если есть клава у сообщения
         if msg.kb:
             msg.kb = keyboardCreator.create_vk_keyboard(msg)

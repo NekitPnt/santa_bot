@@ -1,11 +1,11 @@
 import time
-from settings import vk_group_id, prod
+from settings import vk_group_id
 from typing import Tuple
 
 
 def create_join_link_and_key(join_prefix: str, room_id: int) -> Tuple[str, str]:
     key = f"{join_prefix}{int(time.time())}{room_id}{len(str(room_id))}"
-    vk_link = f'vk.me/-{vk_group_id[prod]}?ref={key}'
+    vk_link = f'vk.me/-{vk_group_id}?ref={key}'
     return key, vk_link
 
 
