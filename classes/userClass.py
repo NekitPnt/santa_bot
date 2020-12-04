@@ -29,7 +29,7 @@ class User:
             return Rooms.get_or_none(id=self.room_id).shuffled
 
     def room_shuffled(self):
-        Rooms.update(shuffled=True).where(room_id=self.room_id).execute()
+        Rooms.update(shuffled=True).where(id=self.room_id).execute()
 
     def create_room(self):
         if self.room_id:
