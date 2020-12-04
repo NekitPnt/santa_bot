@@ -14,4 +14,4 @@ def parse_key(command: str, join_prefix) -> int:
     num_len = int(ref_code[-1]) if ref_code[-1].isdigit() else 0
     if not num_len:
         return num_len
-    return int(command[num_len:-1]) if command[num_len:-1].isdigit() else 0
+    return int(ref_code[-num_len-1:-1]) if ref_code[-num_len-1:-1].isdigit() else 0
