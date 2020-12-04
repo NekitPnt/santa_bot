@@ -69,6 +69,7 @@ def response_handler_for_vk(data):
             if 'ref' in data['object']:
                 data['object']['text'] = data['object']['ref']
             # выковыривание из пересланных кода join
+            utils.error_notificator(data)
             if data.get('fwd_messages', ''):
                 data['object']['text'] = utils.fwd_parser(data['object'])
             return create_answer(data['object'], soClass.vk_soc)
