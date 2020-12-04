@@ -65,8 +65,12 @@ def response_handler_for_vk(data):
                 data['object']['from_id'] != -settings.vk_group_id[settings.prod] and \
                 data['object']['from_id'] == data['object']['peer_id']:
             data['object']['payload'] = payloadClass.get_payload(data['object'].get('payload', "{}"))
+            # выковыривание рефералки
             if 'ref' in data['object']:
                 data['object']['text'] = data['object']['ref']
+            # выковыривание из пересланных кода join
+            if data.get('fwd_messages', ''):
+                data['object']['text'] = utils.fwd_parser(data['object'])
             return create_answer(data['object'], soClass.vk_soc)
         elif data['type'] == 'message_event':
             payload: payloadClass.Payload = payloadClass.get_payload(data['object']['payload'])
@@ -99,7 +103,6 @@ def create_answer(data: dict, social: soClass.Socials) -> str:
 
     data['text'] = data.get('text', '')
     command: str = data['text'].lower().replace('/start ', '').strip()
-    utils.error_notificator(command)
 
     # -------------------------------------- основная функциональность ------------------------------------------------
     # только для админов
@@ -126,7 +129,7 @@ def create_answer(data: dict, social: soClass.Socials) -> str:
     elif command in cmng.user_leave.activators:
         secret_santa.user_leave_room(user)
     # заход по ссылке в комнату участника
-    elif command.startswith(cmng.user_adding.prefix):  # todo link bug
+    elif command.startswith(cmng.user_adding.prefix):
         secret_santa.add_user_to_room(user, command)
 
     # --------------------------------------------------------------------------------------

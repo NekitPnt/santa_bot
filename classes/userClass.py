@@ -46,6 +46,7 @@ class User:
             self.room_id = room_id
             Users.update(room_id=self.room_id, is_admin=False).where(Users.id == self.db_id).execute()
             return room_id
+        self.is_admin = False
         return 0
 
     def leave_room(self):

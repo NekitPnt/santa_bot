@@ -1,5 +1,20 @@
 from classes import userClass, soClass, msgCls
 import settings
+import comanager as cmng
+
+
+def fwd_parser(data: dict):
+    print(data)
+    for mes in data.get('fwd_messages', []):
+        if mes.get('fwd_messages', ''):
+            return fwd_parser(mes)
+        else:
+            if cmng.user_adding.prefix in mes.get('text', ''):
+                splitted_mes = mes.get('text', '').split()
+                for i in splitted_mes:
+                    if i.startswith(cmng.user_adding.prefix):
+                        return i
+    return ''
 
 
 # функция уведомляющая админа об ошибке
