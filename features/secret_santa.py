@@ -84,8 +84,6 @@ def start_gifts_shuffle(admin: User):
         getter_link = vk_methods.linked_user_name(getter_id)
         msg = Message(f"{getter_link} {cmng.start_shuffle.text}")
         sender.send_msg(msg)
-        import utils
-        utils.error_notificator(vk_methods.check_user_sub(settings.vk_group_id, sender_id))
         if not vk_methods.check_user_sub(settings.vk_group_id, sender_id):
             sender.send_msg(Message(cmng.pls_sub.text))
 
