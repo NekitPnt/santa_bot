@@ -26,7 +26,7 @@ class User:
 
     def get_room_shuffled(self):
         if self.room_id:
-            return Rooms.get_or_none(room_id=self.room_id).shuffled
+            return Rooms.get_or_none(id=self.room_id).shuffled
 
     def room_shuffled(self):
         Rooms.update(shuffled=True).where(room_id=self.room_id).execute()
