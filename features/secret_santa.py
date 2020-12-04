@@ -43,6 +43,8 @@ def create_room(user: User):
     key, vk_link = join_link_creator.create_join_link_and_key(cmng.user_adding.prefix, room_id)
     msg = Message(f"{cmng.room_creation.text}\n\nКод: {key}\nСсылка: {vk_link}")
     user.send_msg(msg)
+    if not vk_methods.check_user_sub(settings.vk_group_id, user.uid):
+        user.send_msg(Message(cmng.pls_sub.text))
     about_response(user)
 
 
