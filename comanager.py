@@ -62,8 +62,8 @@ room_error = Feature(
 sucseed_shuffle = Feature(
     text="Жеребьевка прошла успешно!"
 )
-shuffle_error = Feature(
-    text="Вы не админ комнаты и не можете начинать жеребьевку!"
+access_error = Feature(
+    text="Доступ ограничен: Вы не админ комнаты"
 )
 kicked_user = Feature(
     text="Увы и ах, но вас, к сожалению, выгнали из комнаты"

@@ -101,6 +101,20 @@ def create_answer(data: dict, social: soClass.Socials) -> str:
     command: str = data['text'].lower().replace('/start ', '').strip()
 
     # -------------------------------------- основная функциональность ------------------------------------------------
+    # только для админов
+    if user.is_admin:
+        # кик юзера
+        if command.startswith(cmng.kick_user.prefix):
+            secret_santa.kick_user_from_room(user, command)
+        # начать шафлинг
+        elif command in cmng.start_shuffle.activators or command in cmng.reshuffle.activators:
+            secret_santa.start_gifts_shuffle(user)
+        # проверка количества юзеров в комнате
+        elif command in cmng.check_room.activators:
+            secret_santa.check_users_in_room(user)
+        # удаление комнаты
+        elif command in cmng.delete_room.activators:
+            secret_santa.clear_room(user)
     # инфа о том что умеет бот
     if command in cmng.about.activators:
         secret_santa.about_response(user)
@@ -110,18 +124,6 @@ def create_answer(data: dict, social: soClass.Socials) -> str:
     # выход из комнаты
     elif command in cmng.user_leave.activators:
         secret_santa.user_leave_room(user)
-    # кик юзера
-    elif command.startswith(cmng.kick_user.prefix):
-        secret_santa.kick_user_from_room(user, command)
-    # начать шафлинг
-    elif command in cmng.start_shuffle.activators or command in cmng.reshuffle.activators:
-        secret_santa.start_gifts_shuffle(user)
-    # проверка количества юзеров в комнате
-    elif command in cmng.check_room.activators:
-        secret_santa.check_users_in_room(user)
-    # проверка количества юзеров в комнате
-    elif command in cmng.delete_room.activators:
-        secret_santa.clear_room(user)
     # заход по ссылке в комнату участника
     elif command.startswith(cmng.user_adding.prefix):  # todo link bug
         secret_santa.add_user_to_room(user, command)

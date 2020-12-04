@@ -72,24 +72,20 @@ def user_leave_room(user: User):
 
 
 def start_gifts_shuffle(admin: User):
-    # неадминам нельзя шафлить
-    if not admin.is_admin:
-        msg = Message(cmng.shuffle_error.text)
-    else:
-        members = [i.user_social_id for i in admin.get_all_room_users()]
-        random.shuffle(members)
-        members.append(members[0])
+    members = [i.user_social_id for i in admin.get_all_room_users()]
+    random.shuffle(members)
+    members.append(members[0])
 
-        for uid_i in range(len(members) - 1):
-            sender_id = members[uid_i]
-            getter_id = members[uid_i + 1]
-            sender = User(admin.social, uid=sender_id)
-            getter_link = vk_methods.linked_user_name(getter_id)
-            msg = Message(f"{getter_link} {cmng.start_shuffle.text}")
-            sender.send_msg(msg)
+    for uid_i in range(len(members) - 1):
+        sender_id = members[uid_i]
+        getter_id = members[uid_i + 1]
+        sender = User(admin.social, uid=sender_id)
+        getter_link = vk_methods.linked_user_name(getter_id)
+        msg = Message(f"{getter_link} {cmng.start_shuffle.text}")
+        sender.send_msg(msg)
 
-        msg = Message(cmng.sucseed_shuffle.text, [[Btn(cmng.about.button)]])
-        admin.room_shuffled()
+    msg = Message(cmng.sucseed_shuffle.text, [[Btn(cmng.about.button)]])
+    admin.room_shuffled()
 
     admin.send_msg(msg)
 
