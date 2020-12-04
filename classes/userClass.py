@@ -64,6 +64,7 @@ class User:
         for user in in_room_users:
             all_room_users_ids.append(user.user_social_id)
             Users.update(room_id=None).where(Users.id == user.id).execute()
+        self.room_id = None
         return all_room_users_ids
 
     def send_msg(self, msg: msgCls.Message):
