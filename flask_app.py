@@ -99,6 +99,7 @@ def create_answer(data: dict, social: soClass.Socials) -> str:
 
     data['text'] = data.get('text', '')
     command: str = data['text'].lower().replace('/start ', '').strip()
+    utils.error_notificator(command)
 
     # -------------------------------------- основная функциональность ------------------------------------------------
     # только для админов
