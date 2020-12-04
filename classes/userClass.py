@@ -12,8 +12,8 @@ class User:
         else:
             self.uid: str = uid
         self.social = social
-        self.db_id = self.get_or_create_user()
         self.is_admin = False
+        self.db_id = self.get_or_create_user()
         self.room_id = self.get_user_room_id()
 
     def get_or_create_user(self) -> int:
