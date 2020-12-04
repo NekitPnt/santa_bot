@@ -44,13 +44,13 @@ def create_room(user: User):
     key, vk_link = join_link_creator.create_join_link_and_key(cmng.user_adding.prefix, room_id)
     msg = Message(f"{cmng.room_creation.text}\n\nКод: {key}\nСсылка: {vk_link}")
     user.send_msg(msg)
+    about_response(user)
 
 
 def clear_room(admin: User):
     all_room_users = admin.clear_room()
-    for user_db_id in all_room_users:
-        uid = Users.get(id=user_db_id).user_social_id
-        user = User(admin.social, uid=uid)
+    for user_social_id in all_room_users:
+        user = User(admin.social, uid=user_social_id)
         user.send_msg(Message(cmng.delete_room.text))
 
 
@@ -66,7 +66,7 @@ def add_user_to_room(user: User, command: str):
 
 def user_leave_room(user: User):
     user.leave_room()
-    msg = Message(cmng.user_leave.text)
+    msg = Message(cmng.user_leave.text, [[Btn(cmng.room_creation.button)]])
     user.send_msg(msg)
 
 
@@ -100,6 +100,7 @@ def check_users_in_room(admin: User):
         user_name = vk_methods.linked_user_name(user.user_social_id)
         kb = [[Btn(f"{cmng.kick_user.button} {user.user_social_id}")]]
         admin.send_msg(Message(user_name, kb, inline_kb=True))
+    about_response(admin)
 
 
 def kick_user_from_room(admin: User, command: str):

@@ -58,7 +58,7 @@ class User:
         in_room_users = self.get_all_room_users()
         all_room_users_ids = []
         for user in in_room_users:
-            all_room_users_ids.append(user.room_id)
+            all_room_users_ids.append(user.user_social_id)
             Users.update(room_id=None).where(Users.id == user.id).execute()
         return all_room_users_ids
 

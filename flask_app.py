@@ -123,7 +123,7 @@ def create_answer(data: dict, social: soClass.Socials) -> str:
     elif command in cmng.delete_room.activators:
         secret_santa.clear_room(user)
     # заход по ссылке в комнату участника
-    elif command.startswith(cmng.user_adding.prefix):
+    elif command.startswith(cmng.user_adding.prefix):  # todo link bug
         secret_santa.add_user_to_room(user, command)
 
     # --------------------------------------------------------------------------------------
