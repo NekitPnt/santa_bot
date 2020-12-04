@@ -22,17 +22,17 @@ def about_response(user: User):
                 if ftr is cmng.start_shuffle and user.get_room_shuffled():
                     ftr = cmng.reshuffle
                 msg.text += f"\n — {ftr.descr};"
-                msg.kb.append([[Btn(ftr.button, color=ftr.button_color)]])
+                msg.kb.append([Btn(ftr.button, color=ftr.button_color)])
         # иначе сообщаем юзеру что он сейчас в комнате и предлагаем только ливнуть оттуда
         else:
             msg = Message(f"{cmng.user_about.text}\n", [])
             msg.text += f"\n — {cmng.user_leave.descr};"
-            msg.kb.append([[Btn(cmng.user_leave.button)]])
+            msg.kb.append([Btn(cmng.user_leave.button)])
     # предлагаем создать комнату
     else:
         msg = Message(f"{cmng.about.text}\n", [])
         msg.text += f"\n — {cmng.room_creation.descr};"
-        msg.kb.append([[Btn(cmng.room_creation.button)]])
+        msg.kb.append([Btn(cmng.room_creation.button)])
 
     user.send_msg(msg)
 
@@ -98,7 +98,7 @@ def check_users_in_room(admin: User):
     admin.send_msg(Message(cmng.check_room.text))
     for user_id in all_users:
         user_name = vk_methods.linked_user_name(user_id)
-        kb = [[[Btn(f"{cmng.kick_user.button} {user_id}")]]]
+        kb = [[Btn(f"{cmng.kick_user.button} {user_id}")]]
         admin.send_msg(Message(user_name, kb, inline_kb=True))
 
 
