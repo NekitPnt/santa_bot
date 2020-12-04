@@ -54,7 +54,7 @@ check_room = Feature(
 delete_room = Feature(
     text="Комната удалена насовсем",
     button="Удалить комнату",
-    button_color='red',
+    button_color="red",
     descr="Удалить комнату насовсем"
 )
 room_error = Feature(
