@@ -4,7 +4,6 @@ from classes.btnCls import Btn
 from classes import myVkbotClass
 import comanager as cmng
 from lib import join_link_creator
-from models import Users
 import settings
 
 import random
@@ -63,6 +62,7 @@ def add_user_to_room(user: User, command: str):
     else:
         msg = Message(cmng.room_error.text)
     user.send_msg(msg)
+    about_response(user)
 
 
 def user_leave_room(user: User):
@@ -88,7 +88,7 @@ def start_gifts_shuffle(admin: User):
             msg = Message(f"{getter_link} {cmng.start_shuffle.text}")
             sender.send_msg(msg)
 
-        msg = Message(cmng.sucseed_shuffle.text)
+        msg = Message(cmng.sucseed_shuffle.text, [[Btn(cmng.about.button)]])
         admin.room_shuffled()
 
     admin.send_msg(msg)
