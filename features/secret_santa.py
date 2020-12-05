@@ -116,3 +116,9 @@ def kick_user_from_room(admin: User, command: str):
     admin.send_msg(Message(cmng.kick_user.text.format(user_name)))
     user.send_msg(Message(cmng.kicked_user.text))
     about_response(admin)
+
+
+def wrong_request(user: User):
+    my_name = vk_methods.linked_user_name(settings.error_receiver_id)
+    user.send_msg(Message(cmng.wrong_command.text.format(my_name)))
+    about_response(user)
