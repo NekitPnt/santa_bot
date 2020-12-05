@@ -119,6 +119,8 @@ def create_answer(data: dict, social: soClass.Socials) -> str:
         # удаление комнаты
         elif command in cmng.delete_room.activators:
             secret_santa.clear_room(user)
+        else:
+            secret_santa.wrong_request(user)
     # инфа о том что умеет бот
     if command in cmng.about.activators:
         secret_santa.about_response(user)
@@ -131,6 +133,8 @@ def create_answer(data: dict, social: soClass.Socials) -> str:
     # заход по ссылке в комнату участника
     elif command.startswith(cmng.user_adding.prefix):
         secret_santa.add_user_to_room(user, command)
+    else:
+        secret_santa.wrong_request(user)
 
     # --------------------------------------------------------------------------------------
 
