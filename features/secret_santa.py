@@ -86,8 +86,7 @@ def start_gifts_shuffle(admin: User):
         getter_link = vk_methods.linked_user_name(getter_id)
         msg = Message(f"{getter_link} {cmng.start_shuffle.text}")
         sender.send_msg(msg)
-        if not vk_methods.check_user_sub(settings.vk_group_id, sender_id):
-            sender.send_msg(Message(cmng.pls_sub.text))
+        sender.send_msg(Message(cmng.pls_sub.text))
 
     msg = Message(cmng.sucseed_shuffle.text, [[Btn(cmng.about.button)]])
     admin.room_shuffled()
