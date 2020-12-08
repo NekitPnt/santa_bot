@@ -1,7 +1,7 @@
 from classes.userClass import User
 from classes.msgCls import Message
 from classes.btnCls import Btn
-from classes import myVkbotClass
+from classes import myVkbotClass, msend
 import comanager as cmng
 from lib import join_link_creator
 import settings
@@ -82,16 +82,13 @@ def start_gifts_shuffle(admin: User):
     for uid_i in range(len(members) - 1):
         sender_id = members[uid_i]
         getter_id = members[uid_i + 1]
-        sender = User(admin.social, uid=sender_id)
         getter_link = vk_methods.linked_user_name(getter_id)
         msg = Message(f"{getter_link} {cmng.start_shuffle.text}")
-        sender.send_msg(msg)
-        sender.send_msg(Message(cmng.pls_sub.text))
+        msend.send_msg(sender_id, admin.social, msg)
+        msend.send_msg(sender_id, admin.social, Message(cmng.pls_sub.text))
 
-    msg = Message(cmng.sucseed_shuffle.text, [[Btn(cmng.about.button)]])
     admin.room_shuffled()
-
-    admin.send_msg(msg)
+    admin.send_msg(Message(cmng.sucseed_shuffle.text, [[Btn(cmng.about.button)]]))
 
 
 def check_users_in_room(admin: User):

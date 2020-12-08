@@ -1,4 +1,4 @@
-from classes import soClass, msgCls, myVkbotClass
+from classes import soClass, msgCls, myVkbotClass, msend
 from lib import keyboardCreator
 from models import Users, Rooms
 from vk.exceptions import VkAPIError
@@ -71,17 +71,4 @@ class User:
         return all_room_users_ids
 
     def send_msg(self, msg: msgCls.Message):
-        if self.social == soClass.vk_soc:
-            self.send_msg_vk(msg)
-
-    def send_msg_vk(self, msg: msgCls.Message):
-        vk_methods = myVkbotClass.VkMethods(settings.vk_token, settings.vk_api_version, settings.vk_service_token)
-        # если есть клава у сообщения
-        if msg.kb:
-            msg.kb = keyboardCreator.create_vk_keyboard(msg)
-
-        # если юзер не запретил нам отправлять себе сообщения
-        try:
-            vk_methods.send_message(self.uid, msg.text, msg.kb, msg.attach, msg.dont_parse_links)
-        except VkAPIError as e:
-            print(e)
+        msend.send_msg(self.uid, self.social, msg)
