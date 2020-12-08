@@ -58,7 +58,7 @@ class User:
 
     @staticmethod
     def kick_user(user_db_id):
-        Users.update(room_id=None).where(Users.id == user_db_id).execute()
+        Users.update(room_id=None, is_admin=False).where(Users.id == user_db_id).execute()
 
     def clear_room(self) -> list:
         in_room_users = self.get_all_room_users()
