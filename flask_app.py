@@ -119,9 +119,6 @@ def create_answer(data: dict, social: soClass.Socials) -> str:
         # удаление комнаты
         elif command in cmng.delete_room.activators:
             secret_santa.clear_room(user)
-        else:
-            secret_santa.wrong_request(user)
-        return 'ok'
     # инфа о том что умеет бот
     if command in cmng.about.activators:
         secret_santa.about_response(user)
