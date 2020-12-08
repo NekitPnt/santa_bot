@@ -88,7 +88,6 @@ def start_gifts_shuffle(admin: User):
         msend.send_msg(sender_id, admin.social, Message(cmng.pls_sub.text))
 
     admin.room_shuffled()
-    admin.send_msg(Message(cmng.sucseed_shuffle.text, [[Btn(cmng.about.button)]]))
 
 
 def check_users_in_room(admin: User):
