@@ -30,7 +30,7 @@ def about_response(user: User):
         # иначе сообщаем юзеру что он сейчас в комнате и предлагаем ливнуть оттуда или запилить вишлист
         else:
             msg = Message("", [])
-            for ftr in [cmng.wish_list, cmng.user_about]:
+            for ftr in [cmng.wish_list, cmng.user_leave]:
                 msg.text += f"\n — {ftr.descr};"
                 msg.kb.append([Btn(ftr.button, color=ftr.button_color)])
     # предлагаем создать комнату
