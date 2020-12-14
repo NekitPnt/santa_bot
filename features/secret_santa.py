@@ -150,3 +150,4 @@ def save_wishlist(user: User, command: str):
         user.save_wishlist(wishlist)
         msg = Message(cmng.wish_list.text.format(wishlist))
     user.send_msg(msg)
+    about_response(user)
