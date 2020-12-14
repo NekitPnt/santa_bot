@@ -21,8 +21,7 @@ def about_response(user: User):
             # если комната уже создана, напоминаем ключ захода в нее
             if user.room_id:
                 key, vk_link = join_link_creator.create_join_link_and_key(cmng.user_adding.prefix, user.room_id)
-                msg = Message(f"Напоминаю код комнаты: {key}\nИ ссылку: {vk_link}")
-                user.send_msg(msg)
+                user.send_msg(Message(f"Напоминаю код комнаты: {key}\nИ ссылку: {vk_link}"))
             for ftr in [cmng.check_room, cmng.start_shuffle, cmng.delete_room]:
                 if ftr is cmng.start_shuffle and user.get_room_shuffled():
                     ftr = cmng.reshuffle
