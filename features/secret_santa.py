@@ -145,7 +145,12 @@ def save_wishlist(user: User, command: str):
     # validate wishlist
     wishlist = command.replace(cmng.wish_list.prefix, '').strip()
     if not wishlist:
-        msg = Message(cmng.wish_list_error.text)
+        # если у юзера уже есть вишлист, показываем его ему
+        user_wl = user.get_wishlist()
+        if user_wl:
+            msg = Message(cmng.wish_list_error.descr.format(user_wl, cmng.wish_list_creation))
+        else:
+            msg = Message(cmng.wish_list_error.text)
     else:
         # save wishlist
         user.save_wishlist(wishlist)

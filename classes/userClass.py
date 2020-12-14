@@ -77,4 +77,4 @@ class User:
         Users.update(wish_list=wishlist).where(Users.id == self.db_id).execute()
 
     def get_wishlist(self):
-        return Users.get(id=self.db_id).wish_list
+        return Users.get_or_none(id=self.db_id).wish_list

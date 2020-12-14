@@ -100,43 +100,46 @@ def response_handler_for_vk(data):
 
 
 def create_answer(data: dict, social: soClass.Socials):
-    # инициализация юзерского объекта
-    user = userClass.User(social, data)
+    try:
+        # инициализация юзерского объекта
+        user = userClass.User(social, data)
 
-    data['text'] = data.get('text', '')
-    command: str = data['text'].lower().replace('/start ', '').strip()
+        data['text'] = data.get('text', '')
+        command: str = data['text'].lower().replace('/start ', '').strip()
 
-    # -------------------------------------- основная функциональность ------------------------------------------------
-    # только для админов
-    # кик юзера
-    if command.startswith(cmng.kick_user.prefix) and user.is_admin:
-        secret_santa.kick_user_from_room(user, command)
-    # начать шафлинг
-    elif (command in cmng.start_shuffle.activators or command in cmng.reshuffle.activators) and user.is_admin:
-        secret_santa.start_gifts_shuffle(user)
-    # проверка количества юзеров в комнате
-    elif command in cmng.check_room.activators and user.is_admin:
-        secret_santa.check_users_in_room(user)
-    # удаление комнаты
-    elif command in cmng.delete_room.activators and user.is_admin:
-        secret_santa.clear_room(user)
-    # инфа о том что умеет бот
-    elif command in cmng.about.activators:
-        secret_santa.about_response(user)
-    # создание новой комнаты
-    elif command in cmng.room_creation.activators:
-        secret_santa.create_room(user)
-    # выход из комнаты
-    elif command in cmng.user_leave.activators:
-        secret_santa.user_leave_room(user)
-    # вишлист
-    elif command.startswith(cmng.wish_list.prefix):
-        secret_santa.save_wishlist(user, command)
-    # заход по ссылке в комнату участника
-    elif command.startswith(cmng.user_adding.prefix):
-        secret_santa.add_user_to_room(user, command)
-    else:
-        secret_santa.wrong_request(user)
+        # -------------------------------------- основная функциональность --------------------------------------------
+        # только для админов
+        # кик юзера
+        if command.startswith(cmng.kick_user.prefix) and user.is_admin:
+            secret_santa.kick_user_from_room(user, command)
+        # начать шафлинг
+        elif (command in cmng.start_shuffle.activators or command in cmng.reshuffle.activators) and user.is_admin:
+            secret_santa.start_gifts_shuffle(user)
+        # проверка количества юзеров в комнате
+        elif command in cmng.check_room.activators and user.is_admin:
+            secret_santa.check_users_in_room(user)
+        # удаление комнаты
+        elif command in cmng.delete_room.activators and user.is_admin:
+            secret_santa.clear_room(user)
+        # инфа о том что умеет бот
+        elif command in cmng.about.activators:
+            secret_santa.about_response(user)
+        # создание новой комнаты
+        elif command in cmng.room_creation.activators:
+            secret_santa.create_room(user)
+        # выход из комнаты
+        elif command in cmng.user_leave.activators:
+            secret_santa.user_leave_room(user)
+        # вишлист
+        elif command.startswith(cmng.wish_list.prefix):
+            secret_santa.save_wishlist(user, command)
+        # заход по ссылке в комнату участника
+        elif command.startswith(cmng.user_adding.prefix):
+            secret_santa.add_user_to_room(user, command)
+        else:
+            secret_santa.wrong_request(user)
+    except Exception:
+        utils.error_notificator(traceback.format_exc() + '\n\n' + str(data))
 
 
 # ---------------------------------------------------------------------------------------------------------------------
