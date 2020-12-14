@@ -27,7 +27,7 @@ def about_response(user: User):
                     ftr = cmng.reshuffle
                 msg.text += f"\n — {ftr.descr};"
                 msg.kb.append([Btn(ftr.button, color=ftr.button_color)])
-        # иначе сообщаем юзеру что он сейчас в комнате и предлагаем только ливнуть оттуда
+        # иначе сообщаем юзеру что он сейчас в комнате и предлагаем ливнуть оттуда или запилить вишлист
         else:
             msg = Message(f"{cmng.user_about.text}\n", [])
             msg.text += f"\n — {cmng.user_leave.descr};"
