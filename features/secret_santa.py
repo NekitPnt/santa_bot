@@ -70,12 +70,15 @@ def add_user_to_room(user: User, command: str):
             msg = Message('Вы уже в комнате, вам не нужно переходить по ссылке или скидывать мне код')
         elif room:
             # пишем юзеру в чью комнату он зашел
-            room_admin_id = Users.get(social=user.social.key, room_id=room_id, is_admin=True).user_social_id
-            room_admin_name = vk_methods.linked_user_name(room_admin_id)
-            msg = Message(cmng.user_adding.text.format(room_admin_name))
-            # пишем админу что в его комнату зашли
-            user_name = vk_methods.linked_user_name(user.uid)
-            msend.send_msg(room_admin_id, user.social, Message(cmng.user_adding.descr.format(user_name)))
+            room_admin_id = Users.get_or_none(social=user.social.key, room_id=room_id, is_admin=True).user_social_id
+            if room_admin_id:
+                room_admin_name = vk_methods.linked_user_name(room_admin_id)
+                msg = Message(cmng.user_adding.text.format(room_admin_name))
+                # пишем админу что в его комнату зашли
+                user_name = vk_methods.linked_user_name(user.uid)
+                msend.send_msg(room_admin_id, user.social, Message(cmng.user_adding.descr.format(user_name)))
+            else:
+                msg = Message(cmng.user_adding.text.format(''))
         else:
             msg = Message(cmng.room_error.text)
     else:
