@@ -18,6 +18,11 @@ def about_response(user: User):
         # если он админ этой комнаты тогда предлагаем ему кикнуть, узнать список людей, зашафлить
         if user.is_admin:
             msg = Message(f"{cmng.admin_about.text}\n", [])
+            # если комната уже создана, напоминаем ключ захода в нее
+            if user.room_id:
+                key, vk_link = join_link_creator.create_join_link_and_key(cmng.user_adding.prefix, user.room_id)
+                msg = Message(f"Напоминаю код комнаты: {key}\nИ ссылку: {vk_link}")
+                user.send_msg(msg)
             for ftr in [cmng.check_room, cmng.start_shuffle, cmng.delete_room]:
                 if ftr is cmng.start_shuffle and user.get_room_shuffled():
                     ftr = cmng.reshuffle
@@ -62,11 +67,15 @@ def add_user_to_room(user: User, command: str):
     if room_id:
         room = user.set_room(room_id)
         if room == 'exists':
-            msg = Message('Вы уже в комнате')
+            msg = Message('Вы уже в комнате, вам не нужно переходить по ссылке или скидывать мне код')
         elif room:
+            # пишем юзеру в чью комнату он зашел
             room_admin_id = Users.get(social=user.social.key, room_id=room_id, is_admin=True).user_social_id
             room_admin_name = vk_methods.linked_user_name(room_admin_id)
             msg = Message(cmng.user_adding.text.format(room_admin_name))
+            # пишем админу что в его комнату зашли
+            user_name = vk_methods.linked_user_name(user.uid)
+            msend.send_msg(room_admin_id, user.social, Message(cmng.user_adding.text.format(user_name)))
         else:
             msg = Message(cmng.room_error.text)
     else:
