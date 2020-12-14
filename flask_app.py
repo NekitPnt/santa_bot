@@ -1,7 +1,8 @@
 from flask import Flask, request
 from peewee import SqliteDatabase
 import traceback
-import git
+# import git
+import threading
 
 import utils
 import settings
@@ -31,7 +32,7 @@ def hello_world():
     return 'Hello from Flask!'
 
 
-@app.route('/git_hook', methods=['POST'])
+"""@app.route('/git_hook', methods=['POST'])
 def webhook():
     if request.method == 'POST':
         repo = git.Repo('./Santa_bot')
@@ -39,7 +40,7 @@ def webhook():
         origin.pull()
         return 'Updated PythonAnywhere successfully', 200
     else:
-        return 'Wrong event type', 400
+        return 'Wrong event type', 400"""
 
 
 # VK
@@ -71,13 +72,13 @@ def response_handler_for_vk(data):
             # выковыривание из пересланных кода join
             if data['object'].get('fwd_messages', ''):
                 data['object']['text'] = utils.fwd_parser(data['object'])
-            return create_answer(data['object'], soClass.vk_soc)
+            threading.Thread(target=create_answer, args=[data['object'], soClass.vk_soc]).start()
         elif data['type'] == 'message_event':
             payload: payloadClass.Payload = payloadClass.get_payload(data['object']['payload'])
             data['object']['payload'] = payload
             data['object']['text'] = payload.command
             data['object']['from_id'] = data['object']['user_id']
-            return create_answer(data['object'], soClass.vk_soc)
+            threading.Thread(target=create_answer, args=[data['object'], soClass.vk_soc]).start()
         elif data['type'] == 'group_leave':
             pass
         elif data['type'] == 'group_join':
@@ -86,10 +87,10 @@ def response_handler_for_vk(data):
             utils.msg_allowed(data['object']['user_id'], soClass.vk_soc)  # todo
         elif data['type'] == 'message_deny':
             utils.msg_denied(data['object']['user_id'], soClass.vk_soc)  # todo"""
-        return 'ok'
     except Exception:
         utils.error_notificator(traceback.format_exc() + '\n\n' + str(data))
-        return 'ok'
+
+    return 'ok'
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -97,7 +98,7 @@ def response_handler_for_vk(data):
 # ---------------------------------------------------------------------------------------------------------------------
 
 
-def create_answer(data: dict, social: soClass.Socials) -> str:
+def create_answer(data: dict, social: soClass.Socials):
     # инициализация юзерского объекта
     user = userClass.User(social, data)
 
@@ -133,10 +134,6 @@ def create_answer(data: dict, social: soClass.Socials) -> str:
     else:
         secret_santa.wrong_request(user)
 
-    # --------------------------------------------------------------------------------------
-
-    return 'ok'
-
 
 # ---------------------------------------------------------------------------------------------------------------------
 # граб ошибок и отправка их в лс админу
@@ -150,10 +147,3 @@ def error_handler(e):
     # print(traceback.format_exc())
     # возвращаете ВК ok
     return 'ok'
-
-# todo list
-# прогуглить про партнерство с озоном через регистрации
-# прогуглить про партнерские сервисы
-# сделать анеки
-# сделать фанты
-#

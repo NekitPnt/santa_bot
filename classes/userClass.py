@@ -1,8 +1,5 @@
-from classes import soClass, msgCls, myVkbotClass, msend
-from lib import keyboardCreator
+from classes import soClass, msgCls, msend
 from models import Users, Rooms
-from vk.exceptions import VkAPIError
-import settings
 
 
 class User:
@@ -42,11 +39,14 @@ class User:
 
     def set_room(self, room_id):
         room = Rooms.get_or_none(id=room_id)
+        # если у чела уже есть комната говорим ему об этом
+        if self.room_id == room_id:
+            return 'exists'
+        # если комната существует
         if room:
             self.room_id = room_id
             Users.update(room_id=self.room_id, is_admin=False).where(Users.id == self.db_id).execute()
             return room_id
-        self.is_admin = False
         return 0
 
     def leave_room(self):

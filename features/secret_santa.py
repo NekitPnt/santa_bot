@@ -5,6 +5,7 @@ from classes import myVkbotClass, msend
 import comanager as cmng
 from lib import join_link_creator
 import settings
+from models import Users
 
 import random
 
@@ -60,7 +61,14 @@ def add_user_to_room(user: User, command: str):
     room_id = join_link_creator.parse_key(command, cmng.user_adding.prefix)
     if room_id:
         room = user.set_room(room_id)
-        msg = Message(cmng.user_adding.text) if room else Message(cmng.room_error.text)
+        if room == 'exists':
+            msg = Message('Вы уже в комнате')
+        elif room:
+            room_admin_id = Users.get(social=user.social.key, room_id=room_id, is_admin=True).user_social_id
+            room_admin_name = vk_methods.linked_user_name(room_admin_id)
+            msg = Message(cmng.user_adding.text.format(room_admin_name))
+        else:
+            msg = Message(cmng.room_error.text)
     else:
         msg = Message(cmng.room_error.text)
     user.send_msg(msg)
