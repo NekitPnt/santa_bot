@@ -74,4 +74,4 @@ class User:
         msend.send_msg(self.uid, self.social, msg)
 
     def save_wishlist(self, wishlist: str):
-        Users.update(wish_list=wishlist).where(Users.id == self.db_id).exeecute()
+        Users.update(wish_list=wishlist).where(Users.id == self.db_id).execute()
