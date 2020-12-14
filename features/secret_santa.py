@@ -29,7 +29,7 @@ def about_response(user: User):
                 msg.kb.append([Btn(ftr.button, color=ftr.button_color)])
         # иначе сообщаем юзеру что он сейчас в комнате и предлагаем ливнуть оттуда или запилить вишлист
         else:
-            msg = Message("", [])
+            msg = Message(f"{cmng.user_about.text}\n", [])
             for ftr in [cmng.wish_list, cmng.user_leave]:
                 msg.text += f"\n — {ftr.descr};"
                 msg.kb.append([Btn(ftr.button, color=ftr.button_color)])
