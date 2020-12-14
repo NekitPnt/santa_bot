@@ -128,6 +128,9 @@ def create_answer(data: dict, social: soClass.Socials):
     # выход из комнаты
     elif command in cmng.user_leave.activators:
         secret_santa.user_leave_room(user)
+    # вишлист
+    elif command.startswith(cmng.wish_list.prefix):
+        secret_santa.save_wishlist(user, command)
     # заход по ссылке в комнату участника
     elif command.startswith(cmng.user_adding.prefix):
         secret_santa.add_user_to_room(user, command)

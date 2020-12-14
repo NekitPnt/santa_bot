@@ -1,7 +1,9 @@
 from peewee import *
 import settings
+import playhouse.migrate
 
 database = SqliteDatabase(settings.DATABASE)
+migrator = playhouse.migrate.PostgresqlMigrator(database)
 
 
 class BaseModel(Model):
@@ -25,6 +27,7 @@ class Users(BaseModel):
     is_admin = BooleanField(default=False)
     message_allow = BooleanField(default=True)
     group_sub = BooleanField(default=False)
+    wish_list = TextField(null=True)
 
     class Meta:
         db_table = "users"
@@ -32,3 +35,7 @@ class Users(BaseModel):
 
 with database:
     database.create_tables([Rooms, Users])
+with database.atomic():
+    playhouse.migrate.migrate(
+        migrator.add_column('users', 'wish_list', TextField(null=True)),
+    )

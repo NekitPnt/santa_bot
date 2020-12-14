@@ -133,3 +133,15 @@ def wrong_request(user: User):
     my_name = vk_methods.linked_user_name(settings.error_receiver_id)
     user.send_msg(Message(cmng.wrong_command.text.format(my_name)))
     about_response(user)
+
+
+def save_wishlist(user: User, command: str):
+    # validate wishlist
+    wishlist = command.replace(cmng.wish_list.prefix, '').strip()
+    if not wishlist:
+        msg = Message(cmng.wish_list_error.text)
+    else:
+        # save wishlist
+        user.save_wishlist(wishlist)
+        msg = Message(cmng.wish_list.text.format(wishlist))
+    user.send_msg(msg)
