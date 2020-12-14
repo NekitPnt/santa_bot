@@ -99,7 +99,12 @@ def start_gifts_shuffle(admin: User):
         sender_id = members[uid_i]
         getter_id = members[uid_i + 1]
         getter_link = vk_methods.linked_user_name(getter_id)
-        msg = Message(f"{getter_link} {cmng.start_shuffle.text}")
+        # подгружаем вишлист
+        getter = User(admin.social, uid=getter_id)
+        getter_wishlist = getter.get_wishlist()
+        text = f"{getter_link} {cmng.start_shuffle.text}. Кстати, его(ее) вишлист: {getter_wishlist}" \
+            if getter_wishlist else f"{getter_link} {cmng.start_shuffle.text}"
+        msg = Message(text)
         msend.send_msg(sender_id, admin.social, msg)
         msend.send_msg(sender_id, admin.social, Message(cmng.pls_sub.text))
 

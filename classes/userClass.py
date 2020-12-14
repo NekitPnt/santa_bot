@@ -75,3 +75,6 @@ class User:
 
     def save_wishlist(self, wishlist: str):
         Users.update(wish_list=wishlist).where(Users.id == self.db_id).execute()
+
+    def get_wishlist(self):
+        return Users.get(id=self.db_id).wish_list
