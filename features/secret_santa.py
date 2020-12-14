@@ -22,16 +22,17 @@ def about_response(user: User):
             if user.room_id:
                 key, vk_link = join_link_creator.create_join_link_and_key(cmng.user_adding.prefix, user.room_id)
                 user.send_msg(Message(f"Напоминаю код комнаты: {key}\nИ ссылку: {vk_link}"))
-            for ftr in [cmng.check_room, cmng.start_shuffle, cmng.delete_room]:
+            for ftr in [cmng.wish_list, cmng.check_room, cmng.start_shuffle, cmng.delete_room]:
                 if ftr is cmng.start_shuffle and user.get_room_shuffled():
                     ftr = cmng.reshuffle
                 msg.text += f"\n — {ftr.descr};"
                 msg.kb.append([Btn(ftr.button, color=ftr.button_color)])
         # иначе сообщаем юзеру что он сейчас в комнате и предлагаем ливнуть оттуда или запилить вишлист
         else:
-            msg = Message(f"{cmng.user_about.text}\n", [])
-            msg.text += f"\n — {cmng.user_leave.descr};"
-            msg.kb.append([Btn(cmng.user_leave.button)])
+            msg = Message("", [])
+            for ftr in [cmng.wish_list, cmng.user_about]:
+                msg.text += f"\n — {ftr.descr};"
+                msg.kb.append([Btn(ftr.button, color=ftr.button_color)])
     # предлагаем создать комнату
     else:
         msg = Message(f"{cmng.about.text}\n", [])
