@@ -37,5 +37,5 @@ with database:
     database.create_tables([Rooms, Users])
 with database.atomic():
     playhouse.migrate.migrate(
-        migrator.add_column('users', 'wish_list', TextField(null=True)),
+        # migrator.add_column('users', 'wish_list', TextField(null=True)),
     )
