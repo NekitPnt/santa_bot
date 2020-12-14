@@ -12,6 +12,7 @@ from features import secret_santa
 
 app = Flask(__name__)
 database = SqliteDatabase(settings.DATABASE)
+utils.error_notificator('reload succeed')
 
 
 @app.before_request
