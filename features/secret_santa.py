@@ -152,11 +152,12 @@ def save_wishlist(user: User, command: str):
         user_wl = user.get_wishlist()
         if user_wl:
             msg = Message(cmng.wish_list_error.descr.format(user_wl, cmng.wish_list_creation))
+        # если нет, говорим об ошибке
         else:
             msg = Message(cmng.wish_list_error.text)
     else:
         # save wishlist
         user.save_wishlist(wishlist)
         msg = Message(cmng.wish_list.text.format(wishlist))
+    msg.kb = [[Btn(cmng.about.button)]]
     user.send_msg(msg)
-    about_response(user)
