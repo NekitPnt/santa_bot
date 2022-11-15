@@ -11,14 +11,15 @@ This is chat bot for Vk, created for playing secret santa
      Hostname github.com
      IdentityFile=/home/<user>/.ssh/<dk key>```
 3. [настройка деплой ключа в репо](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
-4. клон репо на сервер
+4. git clone <ssh string> на сервере в папку юзера
 5. установка docker, docker-compose
-6. в папке проекта (cd santa_vk_bot) прописываем переменные окружения в .env файл (образец в файле template.env)
-7. скрипты ```santa_bot_reload.sh``` и ```santa_bot_deploy.sh``` необходимо вынести на папку выше проекта
+6. в консоли ```sudo chown $USER /var/run/docker.sock```
+7. в папке проекта (cd santa_bot) прописываем переменные окружения в .env файл (образец в файле template.env)
+8. сделать скрипты выполняемыми ```chmod +x santa_bot/santa_bot_deploy.sh``` и ```chmod +x santa_bot/santa_bot_reload.sh```
 
 ### Деплой:
 - пуш в гит
-- на сервере команда ```./santa_bot_deploy.sh```. Скрипт необходимо вынести на папку выше проекта
+- на сервере команда ```./santa_bot/santa_bot_deploy.sh```.
 
 ### Как подключиться к базе из менеджера баз данных
 - docker ps
