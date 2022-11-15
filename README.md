@@ -1,2 +1,2 @@
 # Santa_bot
-This is crossplatform chat bot for Vk and Telegram, created for playing secret santa
+This is chat bot for Vk, created for playing secret santa
