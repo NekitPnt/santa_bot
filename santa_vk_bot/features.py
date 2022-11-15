@@ -1,4 +1,4 @@
-from classes.featureClass import Feature
+from santa_vk_bot.classes.featureClass import Feature
 
 
 about = Feature(
@@ -15,7 +15,7 @@ user_about = Feature(
     text="Вы сейчас в комнате и можете:",
 )
 wish_list_creation = "Чтобы создать новый вишлист напишите мне его одним сообщением с префиксом «вишлист», " \
-                     "например\nвишлист стикеры вк"
+                     "например\n\nвишлист стикеры вк"
 wish_list = Feature(
     prefix="вишлист",
     button="Вишлист",
@@ -24,8 +24,8 @@ wish_list = Feature(
     text="Записал ваш вишлист: {0}\n\nПри жеребьевке покажу его тому, кто будет дарить вам подарок."
 )
 wish_list_error = Feature(
-    text=f"Пустой вишлист. {wish_list_creation}",
-    descr="Ваш текущий вишлист: {0}\n{1}")
+    text=f"Пустой вишлист.\n\n{wish_list_creation}",
+    descr="Ваш текущий вишлист: {0}\n\n{1}")
 room_creation = Feature(
     activators=["создать новую комнату", "-создать новую комнату", "— создать новую комнату"],
     text="Комната создана, чтобы пригласить в нее своих друзей, отправьте им ссылку-приглашение. Также можно "

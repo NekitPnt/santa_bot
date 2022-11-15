@@ -1,20 +1,20 @@
-from classes import soClass, msgCls, msend
-from models import Users, Rooms
+from santa_vk_bot.classes import msgCls
+from santa_vk_bot import msg_send
+from santa_vk_bot.models import Users, Rooms
 
 
 class User:
-    def __init__(self, social: soClass.Socials, data: dict = None, uid: str = None):
+    def __init__(self, *, data: dict = None, uid: str = None):
         if data:
-            self.uid: str = data['from_id'] if social == soClass.vk_soc else data['chat']['id']
+            self.uid: str = data['from_id']
         else:
             self.uid: str = uid
-        self.social = social
         self.is_admin = False
         self.db_id = self.get_or_create_user()
         self.room_id = self.get_user_room_id()
 
     def get_or_create_user(self) -> int:
-        user, created = Users.get_or_create(user_social_id=self.uid, social=self.social.key)
+        user, created = Users.get_or_create(user_social_id=self.uid)
         self.is_admin = user.is_admin
         return user.id
 
@@ -71,7 +71,7 @@ class User:
         return all_room_users_ids
 
     def send_msg(self, msg: msgCls.Message):
-        msend.send_msg(self.uid, self.social, msg)
+        msg_send.send_msg(user_id=self.uid, msg=msg)
 
     def save_wishlist(self, wishlist: str):
         Users.update(wish_list=wishlist).where(Users.id == self.db_id).execute()
