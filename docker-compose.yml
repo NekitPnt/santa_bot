@@ -5,7 +5,7 @@ volumes:
 
 services:
   db:
-    image: postgres:latest
+    image: postgres:15.1
     restart: always
     container_name: santa_bot_db
     env_file:
