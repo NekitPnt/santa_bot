@@ -15,7 +15,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
-      - pg_project:/var/lib/postgresql/santa_bot
+      - pg_project:/var/lib/postgresql/santa_bot_pg13
     ports:
       - "54345:5432"
 
