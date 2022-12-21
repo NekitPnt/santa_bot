@@ -29,8 +29,10 @@ class Users(BaseModel):
     id = PrimaryKeyField(null=False)
     user_social_id = CharField(max_length=30)
     room_id = IntegerField(null=True)
+    getter_id = IntegerField(null=True)
     is_admin = BooleanField(default=False)
     message_allow = BooleanField(default=True)
+    state = TextField(null=True)
     group_sub = BooleanField(default=False)
     wish_list = TextField(null=True)
 
@@ -56,7 +58,8 @@ def make_migrations():
     try:
         with database.atomic():
             playhouse.migrate.migrate(
-                # migrator.add_column('users', 'wish_list', TextField(null=True)),
+                migrator.add_column('users', 'getter_id', IntegerField(null=True)),
+                migrator.add_column('users', 'state', TextField(null=True)),
             )
         logger.info("Tables migrated")
     except ProgrammingError:
