@@ -58,8 +58,8 @@ def make_migrations():
     try:
         with database.atomic():
             playhouse.migrate.migrate(
-                migrator.add_column('users', 'getter_id', IntegerField(null=True)),
-                migrator.add_column('users', 'state', TextField(null=True)),
+                # migrator.add_column('users', 'getter_id', IntegerField(null=True)),
+                # migrator.add_column('users', 'state', TextField(null=True)),
             )
         logger.info("Tables migrated")
     except ProgrammingError:
