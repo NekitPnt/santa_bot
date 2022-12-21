@@ -13,6 +13,15 @@ class User:
         self.db_id = self.get_or_create_user()
         self.room_id = self.get_user_room_id()
 
+    def drop_state(self):
+        self.set_state(state_key=None)
+
+    def set_state(self, *, state_key: str = None):
+        Users.update(state=state_key).where(Users.id == self.db_id).execute()
+
+    def get_state(self):
+        return Users.get_or_none(id=self.db_id).state
+
     def get_or_create_user(self) -> int:
         user, created = Users.get_or_create(user_social_id=self.uid)
         self.is_admin = user.is_admin
@@ -56,6 +65,9 @@ class User:
     def get_all_room_users(self):
         return Users.select().where(Users.room_id == self.room_id)
 
+    def get_room_admin(self):
+        return Users.get_or_none(room_id=self.room_id, is_admin=True)
+
     @staticmethod
     def kick_user(user_db_id):
         Users.update(room_id=None, is_admin=False).where(Users.id == user_db_id).execute()
@@ -66,6 +78,7 @@ class User:
         for user in in_room_users:
             all_room_users_ids.append(user.user_social_id)
             Users.update(room_id=None, is_admin=False).where(Users.id == user.id).execute()
+        Rooms.delete().where(Rooms.id == self.room_id).execute()
         self.room_id = None
         self.is_admin = False
         return all_room_users_ids
@@ -78,3 +91,9 @@ class User:
 
     def get_wishlist(self):
         return Users.get_or_none(id=self.db_id).wish_list
+
+    def set_getter_db_id(self, getter_db_id: int):
+        Users.update(getter_id=getter_db_id).where(Users.id == self.db_id).execute()
+
+    def get_sender(self):
+        return Users.get_or_none(getter_id=self.db_id)

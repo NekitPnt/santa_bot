@@ -48,36 +48,68 @@ def create_answer(data: dict):
         command: str = data['text'].lower().replace('/start ', '').strip()
 
         # -------------------------------------- основная функциональность --------------------------------------------
-        # только для админов
-        # кик юзера
-        if command.startswith(features.kick_user.prefix) and user.is_admin:
-            secret_santa.kick_user_from_room(user, command)
-        # начать шафлинг
-        elif (command in (features.start_shuffle.activators + features.reshuffle.activators)) and user.is_admin:
-            secret_santa.start_gifts_shuffle(user)
-        # проверка количества юзеров в комнате
-        elif command in features.check_room.activators and user.is_admin:
-            secret_santa.check_users_in_room(user)
-        # удаление комнаты
-        elif command in features.delete_room.activators and user.is_admin:
-            secret_santa.clear_room(user)
-        # инфа о том что умеет бот
-        elif command in features.about.activators:
-            secret_santa.about_response(user)
-        # создание новой комнаты
-        elif command in features.room_creation.activators:
-            secret_santa.create_room(user)
-        # выход из комнаты
-        elif command in features.user_leave.activators:
-            secret_santa.user_leave_room(user)
-        # вишлист
-        elif command.startswith(features.wish_list.prefix):
-            secret_santa.save_wishlist(user, command)
-        # заход по ссылке в комнату участника
-        elif command.startswith(features.user_adding.prefix):
-            secret_santa.add_user_to_room(user, command)
+        # стейтовые фичи
+        if (state := user.get_state()) is not None:
+            # -------------------------- только для админов ---------------------------
+            # кик юзера
+            if state == features.kick_user.state_key and user.is_admin:
+                secret_santa.kick_user_from_room(user, command)
+            # удаление комнаты
+            elif state == features.delete_room.state_key and user.is_admin:
+                secret_santa.clear_room(user, command)
+            # -------------------------- для обычных юзеров --------------------------
+            # выход из комнаты
+            elif state == features.user_leave.state_key:
+                secret_santa.user_leave_room(user, command)
+            # создание/перезапись вишлиста
+            elif state == features.create_wish_list.state_key:
+                secret_santa.process_create_wish_list(user, command)
+            # дополнение вишлиста
+            elif state == features.append_wish_list.state_key:
+                secret_santa.process_append_wish_list(user, command)
+            else:
+                secret_santa.state_error(user)
         else:
-            secret_santa.wrong_request(user)
+            # -------------------------- только для админов ---------------------------
+            # апрув кика юзера
+            if command.startswith(features.kick_user.prefix) and user.is_admin:
+                secret_santa.approve_kick_user_from_room(user, command)
+            # начать шафлинг
+            elif command in (features.start_shuffle.activators + features.reshuffle.activators) and user.is_admin:
+                secret_santa.start_gifts_shuffle(user)
+            # проверка количества юзеров в комнате
+            elif command in features.check_room.activators and user.is_admin:
+                secret_santa.check_users_in_room(user)
+            # апрув удаления комнаты
+            elif command in features.delete_room.activators and user.is_admin:
+                secret_santa.approve_clear_room(user)
+            # -------------------------- для обычных юзеров --------------------------
+            # инфа о том что умеет бот
+            elif command in features.about.activators:
+                secret_santa.about_response(user)
+            # правила игры в санту + help
+            elif command in features.rules_and_help.activators:
+                secret_santa.help_request(user)
+            # создание новой комнаты
+            elif command in features.room_creation.activators:
+                secret_santa.create_room(user)
+            # апрув выхода из комнаты
+            elif command in features.user_leave.activators:
+                secret_santa.approve_user_leave_room(user)
+            # меню вишлиста
+            elif command.startswith(features.wish_list_menu.prefix):
+                secret_santa.wishlist_menu_response(user)
+            # создание вишлиста
+            elif command in features.create_wish_list.activators:
+                secret_santa.wishlist_create_response(user)
+            # дополнение вишлиста
+            elif command in features.append_wish_list.activators:
+                secret_santa.wishlist_append_response(user)
+            # заход по ссылке в комнату участника
+            elif command.startswith(features.user_adding.prefix):
+                secret_santa.add_user_to_room(user, command)
+            else:
+                secret_santa.wrong_request(user)
     except Exception:
         error_notificator(traceback.format_exc() + '\n\n' + str(data))
 

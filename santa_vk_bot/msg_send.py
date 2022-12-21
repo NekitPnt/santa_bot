@@ -6,10 +6,6 @@ from santa_vk_bot.classes import myVkbotClass, msgCls
 
 
 def send_msg(*, user_id, msg: msgCls.Message):
-    send_msg_vk(user_id, msg)
-
-
-def send_msg_vk(user_id, msg: msgCls.Message):
     vk_methods = myVkbotClass.VkMethods(settings.vk_bot_token, settings.vk_api_version, settings.vk_service_token)
     # если есть клава у сообщения
     if msg.kb:
@@ -18,8 +14,10 @@ def send_msg_vk(user_id, msg: msgCls.Message):
     # если юзер не запретил нам отправлять себе сообщения
     try:
         vk_methods.send_message(user_id, msg.text, msg.kb, msg.attach, msg.dont_parse_links)
+        return True
     except VkAPIError as e:
         print(e)
+        return False
 
 
 def create_vk_keyboard(msg):
